@@ -1,3 +1,6 @@
+# php-apache-docker
+A PHP and Apache stack to local developing with docker.
+
 ## Using
 
 Requires [Docker compose](https://github.com/docker/compose).
