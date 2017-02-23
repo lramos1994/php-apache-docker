@@ -14,6 +14,7 @@ services:
       - "80:80"
     environment:
       - APACHE_DOC_ROOT=/var/www/html
+      - DB_HOST=project-sql
     working_dir: /var/www/html
 
   unison:

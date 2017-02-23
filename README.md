@@ -17,7 +17,7 @@ Now the container is runing and ready to go.
 ```sh
 $ docker inspect project-sql
 ```
-This will print a huge array, find the **IPAddress** key that will be your server host, the dbname, dbuser and db pass is set on docker-compose.yml, see [Mariadb](https://hub.docker.com/_/mariadb/)
+The database host is passed to the project container via environment variables **DB_HOST**.
 
 if you neeed to importa a database dump into the docker use:
 ```sh
