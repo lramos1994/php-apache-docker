@@ -17,6 +17,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOC_ROOT}!g' /etc/apache2/sites-availab
 RUN sed -ri -e 's!/var/www/!${APACHE_DOC_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN docker-php-ext-install soap && docker-php-ext-configure soap && docker-php-ext-enable soap
+RUN docker-php-ext-install pdo_mysql && docker-php-ext-configure pdo_mysql && docker-php-ext-enable pdo_mysql
 
 RUN a2enmod rewrite
 RUN a2enmod expires
