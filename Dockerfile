@@ -19,6 +19,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOC_ROOT}!g' /etc/apache2/apache2.conf /etc
 RUN docker-php-ext-install soap && docker-php-ext-configure soap && docker-php-ext-enable soap
 RUN docker-php-ext-install pdo_mysql && docker-php-ext-configure pdo_mysql && docker-php-ext-enable pdo_mysql
 RUN docker-php-ext-install gd && docker-php-ext-configure gd && docker-php-ext-enable gd
+RUN docker-php-ext-install zip && docker-php-ext-configure zip && docker-php-ext-enable zip
+RUN docker-php-ext-install dom  && docker-php-ext-configure dom && docker-php-ext-enable dom
+RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext-enable xml
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip
