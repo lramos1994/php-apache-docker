@@ -2,7 +2,7 @@ FROM php:7.1-apache
 
 RUN docker-php-ext-install mysqli && docker-php-ext-configure mysqli && docker-php-ext-enable mysqli
 
-RUN apt-get update && apt-get install -y libpq-dev libmemcached-dev curl libz-dev libxml2-dev libpng-dev
+RUN apt-get update && apt-get install -y libpq-dev libmemcached-dev curl libz-dev libxml2-dev libpng-dev libjpeg-dev
 
 # Install Memcached for php 7
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
