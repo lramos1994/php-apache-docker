@@ -28,7 +28,7 @@ RUN docker-php-ext-install dom  && docker-php-ext-configure dom && docker-php-ex
 RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext-enable xml
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip wget
+    apt-get install -y --no-install-recommends git zip wget cron
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
@@ -36,4 +36,4 @@ RUN a2enmod rewrite
 RUN a2enmod expires
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
-
+CMD ["cron -f"]
