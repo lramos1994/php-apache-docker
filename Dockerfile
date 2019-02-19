@@ -26,6 +26,12 @@ RUN docker-php-ext-configure gd \
 RUN docker-php-ext-install zip && docker-php-ext-configure zip && docker-php-ext-enable zip
 RUN docker-php-ext-install dom  && docker-php-ext-configure dom && docker-php-ext-enable dom
 RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext-enable xml
+RUN \
+    apt-get update && \
+    apt-get install libldap2-dev -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip wget
