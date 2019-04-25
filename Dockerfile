@@ -26,6 +26,7 @@ RUN docker-php-ext-configure gd \
 RUN docker-php-ext-install zip && docker-php-ext-configure zip && docker-php-ext-enable zip
 RUN docker-php-ext-install dom  && docker-php-ext-configure dom && docker-php-ext-enable dom
 RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext-enable xml
+RUN docker-php-ext-install pcntl && docker-php-ext-configure pcntl && docker-php-ext-enable pcntl
 RUN \
     apt-get update && \
     apt-get install libldap2-dev -y && \
