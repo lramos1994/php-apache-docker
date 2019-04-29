@@ -45,3 +45,16 @@ RUN a2enmod headers
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
 
+WORKDIR /tmp
+RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
+    cp /tmp/phpcs.phar /usr/local/bin/phpcs && \
+    chmod +x /usr/local/bin/phpcs
+
+RUN /usr/local/bin/phpcs --config-set show_progress 1 && \
+    /usr/local/bin/phpcs --config-set colors 1 && \
+    /usr/local/bin/phpcs --config-set report_width 140 && \
+    /usr/local/bin/phpcs --config-set encoding utf-8
+ 
+RUN curl -OL http://static.phpmd.org/php/latest/phpmd.phar && \
+    cp /tmp/phpmd.phar /usr/local/bin/phpmd && \
+    chmod +x /usr/local/bin/phpmd
