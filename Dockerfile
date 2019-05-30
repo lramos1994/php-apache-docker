@@ -43,4 +43,4 @@ RUN a2enmod rewrite
 RUN a2enmod expires
 RUN a2enmod headers
 
-COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini
+COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
