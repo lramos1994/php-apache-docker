@@ -40,5 +40,3 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
-
-WORKDIR /var/www/html
