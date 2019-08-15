@@ -36,7 +36,7 @@ RUN \
     docker-php-ext-install ldap
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip wget
+    apt-get install -y --no-install-recommends git unzip zip wget build-essential libaio1
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
@@ -45,3 +45,20 @@ RUN a2enmod expires
 RUN a2enmod headers
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
+
+RUN mkdir -p /opt/oracle
+ADD instantclient-basic-linux.x64-19.3.0.0.0dbru.zip /opt/oracle
+ADD instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip /opt/oracle
+
+RUN cd /opt/oracle && unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
+RUN cd /opt/oracle && unzip instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip
+
+RUN rm -rf /opt/oracle/instantclient_19_3/libclntsh.so
+RUN rm -rf /opt/oracle/instantclient_19_3/libocci.so
+
+RUN ln -s /opt/oracle/instantclient_19_3/libclntsh.so.12.1 /opt/oracle/instantclient_19_3/libclntsh.so
+RUN ln -s /opt/oracle/instantclient_19_3/libocci.so.12.1 /opt/oracle/instantclient_19_3/libocci.so
+
+RUN echo /opt/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient
+
+RUN ldconfig
