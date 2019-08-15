@@ -46,25 +46,17 @@ RUN a2enmod headers
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
 
-RUN mkdir -p /opt/oracle
-ADD instantclient-basic-linux.x64-19.3.0.0.0dbru.zip /opt/oracle
-ADD instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip /opt/oracle
+ADD instantclient-basic-linux.x64-19.3.0.0.0dbru.zip /tmp/
+ADD instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip /tmp/
 
-RUN cd /opt/oracle && unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
-RUN cd /opt/oracle && unzip instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip
+RUN unzip /tmp/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip -d /usr/local/
+RUN unzip /tmp/instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip -d /usr/local/
 
-RUN rm -rf /opt/oracle/instantclient_19_3/libclntsh.so
-RUN rm -rf /opt/oracle/instantclient_19_3/libocci.so
+RUN ln -s /usr/local/instantclient_19_3 /usr/local/instantclient
 
-RUN ln -s /opt/oracle/instantclient_19_3/libclntsh.so.12.1 /opt/oracle/instantclient_19_3/libclntsh.so
-RUN ln -s /opt/oracle/instantclient_19_3/libocci.so.12.1 /opt/oracle/instantclient_19_3/libocci.so
+RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc
+RUN echo 'umask 002' >> /root/.bashrc
 
-RUN echo /opt/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient
-
-RUN ldconfig
-
-RUN pecl channel-update pecl.php.net
-
-RUN echo 'instantclient,/opt/oracle/instantclient_19_3' | pecl install oci8
-
+# Install Oracle extensions
+RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8
 RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini
