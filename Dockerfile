@@ -62,3 +62,9 @@ RUN ln -s /opt/oracle/instantclient_19_3/libocci.so.12.1 /opt/oracle/instantclie
 RUN echo /opt/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient
 
 RUN ldconfig
+
+RUN pecl channel-update pecl.php.net
+
+RUN echo 'instantclient,/opt/oracle/instantclient_19_3' | pecl install oci8
+
+RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini
