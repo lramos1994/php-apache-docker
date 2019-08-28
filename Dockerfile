@@ -46,5 +46,5 @@ RUN a2enmod headers
 
 COPY "memory-limit-php.ini" "/usr/local/etc/php/conf.d/memory-limit-php.ini"
 
-RUN apt-get install supervisor
+RUN apt-get install -y supervisor
 
