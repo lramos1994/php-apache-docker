@@ -28,6 +28,7 @@ RUN docker-php-ext-install dom  && docker-php-ext-configure dom && docker-php-ex
 RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext-enable xml
 RUN docker-php-ext-install pcntl && docker-php-ext-configure pcntl && docker-php-ext-enable pcntl
 RUN docker-php-ext-install mcrypt && docker-php-ext-configure mcrypt && docker-php-ext-enable mcrypt
+RUN docker-php-ext-install intl && docker-php-ext-configure intl && docker-php-ext-enable intl
 RUN \
     apt-get update && \
     apt-get install libldap2-dev -y && \
