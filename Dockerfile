@@ -1,16 +1,8 @@
-FROM php:7.2-apache
+FROM php:5.6-apache
 
 RUN docker-php-ext-install mysqli && docker-php-ext-configure mysqli && docker-php-ext-enable mysqli
 
 RUN apt-get update && apt-get install -y libpq-dev libmemcached-dev curl libz-dev libpng-dev libfreetype6-dev libjpeg-dev libxpm-dev libxml2-dev libxslt-dev libmcrypt-dev libwebp-dev
-
-# Install Memcached for php 7
-RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
-    && mkdir -p /usr/src/php/ext/memcached \
-    && tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-    && docker-php-ext-configure memcached \
-    && docker-php-ext-install memcached \
-    && rm /tmp/memcached.tar.gz
 
 ENV APACHE_DOC_ROOT=/var/www/html
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOC_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -29,17 +21,8 @@ RUN docker-php-ext-install xml && docker-php-ext-configure xml && docker-php-ext
 RUN docker-php-ext-install pcntl && docker-php-ext-configure pcntl && docker-php-ext-enable pcntl
 RUN docker-php-ext-install intl && docker-php-ext-configure intl && docker-php-ext-enable intl
 RUN docker-php-ext-install xmlrpc && docker-php-ext-configure xmlrpc && docker-php-ext-enable xmlrpc
-RUN \
-    apt-get update && \
-    apt-get install libldap2-dev -y && \
-    rm -rf /var/lib/apt/lists/* && \
-    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-    docker-php-ext-install ldap
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip wget
-
-RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 RUN a2enmod rewrite
 RUN a2enmod expires
