@@ -4,6 +4,14 @@ RUN docker-php-ext-install mysqli && docker-php-ext-configure mysqli && docker-p
 
 RUN apt-get update && apt-get install -y libpq-dev libmemcached-dev curl libz-dev libpng-dev libfreetype6-dev libjpeg-dev libxpm-dev libxml2-dev libxslt-dev libmcrypt-dev libwebp-dev
 
+RUN apt-get update \
+    && apt-get install -y locales \
+    && sed -i -e 's/# pt_BR.UTF-8 UTF-8/pt_BR.UTF-8 UTF-8/' /etc/locale.gen \
+    && dpkg-reconfigure --frontend=noninteractive locales \
+    && update-locale LANG=pt_BR.UTF-8
+ENV LANG pt_BR.UTF-8 
+ENV LC_ALL pt_BR.UTF-8
+
 # Install Memcached for php 7
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
     && mkdir -p /usr/src/php/ext/memcached \
