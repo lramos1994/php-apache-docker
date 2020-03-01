@@ -20,6 +20,13 @@ RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-m
     && docker-php-ext-install memcached \
     && rm /tmp/memcached.tar.gz
 
+# Install IonCube
+RUN curl -o ioncube.tar.gz http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar -xvvzf ioncube.tar.gz \
+    && mv ioncube/ioncube_loader_lin_7.2.so `php-config --extension-dir` \
+    && rm -Rf ioncube.tar.gz ioncube \
+    && docker-php-ext-enable ioncube_loader_lin_7.2
+
 ENV APACHE_DOC_ROOT=/var/www/html
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOC_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOC_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
